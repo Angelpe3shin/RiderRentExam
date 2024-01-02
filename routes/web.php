@@ -21,4 +21,9 @@ Route::get('/', [DashboardController::class, 'index'])
 Route::get('/basket', [CustomerBasketController::class, 'basket'])
     ->middleware(['auth'])
     ->name('basket');
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+
 require __DIR__.'/auth.php';
