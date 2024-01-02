@@ -12,10 +12,21 @@ class RentPoint extends Model {
 
     protected $fillable = [
         'address_id',
+        'rent_points_conditions_id',
+        'rent_points_info_id',
         'point_name',
+        'payment_conditions',
     ];
 
     public function address() {
         return $this->belongsTo(Address::class);
+    }
+
+    public function rentConditions() {
+        return $this->belongsTo(RentPointConditions::class);
+    }
+
+    public function info() {
+        return $this->belongsTo(RentPointInfo::class);
     }
 }
