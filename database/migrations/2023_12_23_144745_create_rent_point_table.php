@@ -11,7 +11,10 @@ return new class extends Migration {
             Schema::create('rent_points', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('address_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+                $table->foreignId('rent_points_conditions_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+                $table->foreignId('rent_points_infos_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
                 $table->string('point_name')->unique();
+                $table->string('payment_conditions');
                 $table->timestamps();
             });
         }

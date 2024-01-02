@@ -15,6 +15,8 @@ use App\Models\Address;
 use App\Models\Customer;
 use App\Models\CustomerBasket;
 use App\Models\Rent;
+use App\Models\RentPointInfo;
+use App\Models\RentPointConditions;
 use App\Models\RentPoint;
 use App\Models\RentPointCustomer;
 use App\Models\RentPointRent;
@@ -33,6 +35,8 @@ class DatabaseSeeder extends Seeder {
         Customer::factory()->count(7)->create();
         CustomerBasket::factory()->count(7)->create();
         Rent::factory()->count(3)->create();
+        RentPointInfo::factory()->count(3)->create();
+        RentPointConditions::factory()->count(3)->create();
         RentPoint::factory()->count(1)->create();
         RentPointCustomer::factory()->count(7)->create();
         RentPointRent::factory()->count(3)->create();
