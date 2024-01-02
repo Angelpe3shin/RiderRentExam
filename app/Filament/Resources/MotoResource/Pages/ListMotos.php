@@ -6,12 +6,10 @@ use App\Filament\Resources\MotoResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListMotos extends ListRecords
-{
+class ListMotos extends ListRecords {
     protected static string $resource = MotoResource::class;
 
-    protected function getHeaderActions(): array
-    {
+    protected function getHeaderActions(): array {
         return [
             Actions\CreateAction::make(),
         ];

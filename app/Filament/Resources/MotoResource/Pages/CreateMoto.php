@@ -6,7 +6,6 @@ use App\Filament\Resources\MotoResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateMoto extends CreateRecord
-{
+class CreateMoto extends CreateRecord {
     protected static string $resource = MotoResource::class;
 }
