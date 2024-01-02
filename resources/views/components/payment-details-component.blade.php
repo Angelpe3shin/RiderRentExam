@@ -1,3 +1,7 @@
 <div>
-    <!-- He who is contented is rich. - Laozi -->
+    @if($details)
+        Details for Payment: {{ $details }}
+    @else
+        No details found.
+    @endif
 </div>

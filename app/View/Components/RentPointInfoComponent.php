@@ -8,21 +8,21 @@ use Illuminate\View\Component;
 
 use App\Models\RentPoint;
 
-class PaymentDetailsComponent extends Component {
-    public $details;
+class RentPointInfoComponent extends Component {
+    public $rentPoint;
 
     public function __construct() {
-        $this->details = RentPoint::where('id', 1)
-                            ->first()
-                            ->payment_conditions;
+        $this->rentPoint = RentPoint::where('id', 1)
+                                    ->first();
     }
 
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string {
-        return view('components.payment-details-component', [
-            'details' => $this->details
+
+        return view('components.rent-point-info-component', [
+            'rentPointInfo' => $this->rentPoint->rentInfo,
         ]);
     }
 }
