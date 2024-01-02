@@ -26,13 +26,11 @@ class MotoModel extends Model {
         'type',
     ];
 
-    public function brand()
-    {
+    public function brand() {
         return $this->belongsTo(Brand::class);
     }
 
-    public function engine()
-    {
+    public function engine() {
         return $this->belongsTo(Engine::class);
     }
 }

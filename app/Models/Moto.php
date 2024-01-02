@@ -21,11 +21,19 @@ class Moto extends Model {
         'status',
     ];
 
+    protected $casts = [
+        'base_rent_price' => 'decimal:2',
+    ];
+
     public function motoModel() {
         return $this->belongsTo(MotoModel::class, 'moto_model_id');
     }
 
     public function color() {
         return $this->belongsTo(Color::class, 'color_id');
+    }
+
+    public function isInBasketOf($user) {
+        return $user->basketItems->contains('moto_id', $this->id);
     }
 }
