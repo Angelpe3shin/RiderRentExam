@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MotoDetailsController;
 use App\Http\Controllers\CustomerBasketController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +23,9 @@ Route::get('/', [DashboardController::class, 'index'])
 Route::get('/basket', [CustomerBasketController::class, 'basket'])
     ->middleware(['auth'])
     ->name('basket');
+
+Route::get('/moto/{id}', [MotoDetailsController:: class, 'details'])
+    ->name('moto-details');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
