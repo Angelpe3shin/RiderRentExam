@@ -4,4 +4,5 @@
             {{ __('Motos') }}
         </h2>
     </x-slot>
+    <x-footer />
 </x-app-layout>
