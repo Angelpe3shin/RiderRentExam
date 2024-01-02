@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomerBasketController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +18,7 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [DashboardController::class, 'index'])
     ->name('index');
 
+Route::get('/basket', [CustomerBasketController::class, 'basket'])
+    ->middleware(['auth'])
+    ->name('basket');
 require __DIR__.'/auth.php';
