@@ -22,7 +22,6 @@
                 <span class="input-group-addon">to</span>
                 <input type="text" class="input-sm form-control" name="end" />
             </div>
-            <!-- Add more details as needed -->
         </div>
     </div>
 

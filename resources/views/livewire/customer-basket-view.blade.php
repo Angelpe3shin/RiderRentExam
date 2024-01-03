@@ -22,7 +22,7 @@
             @if($basketItems->isEmpty())
                 <p class="text-center w-full h-full">Basket Is Empty.</p>
             @else
-                <div class="mb-4"> <!-- Add margin-bottom for spacing between the button group and grid -->
+                <div class="mb-4">
                     <div class="grid grid-cols-1 gap-4">
                         @foreach ($basketItems as $basketItem)
                             <div class="flex items-center bg-blue-100 dark:bg-gray-800 rounded-lg p-4">
@@ -50,7 +50,7 @@
 
         .selected {
             color: #fff;
-            background-color: #3490dc; /* Change this to your desired background color */
+            background-color: #3490dc;
         }
     </style>
 </div>

@@ -1,16 +1,9 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Motos') }}
-        </h2>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    </x-slot>
-
-    <div x-data="{ activeTab: 'motos' }">
-        <!-- Табы -->
-        <ul class="flex">
+    <div x-data="{ activeTab: 'motos' }" class="text-center">
+        <ul class="flex justify-center space-x-1 mb-1 mt-1">
             <li @click="activeTab = 'motos'" :class="{ 'bg-gray-200 dark:bg-gray-700': activeTab === 'motos' }" class="cursor-pointer py-2 px-4">
                 {{ __('Motos') }}
             </li>
@@ -25,18 +18,19 @@
             </li>
         </ul>
 
-        <!-- Содержимое табов -->
-        <div x-show="activeTab === 'motos'">
-            <livewire:moto-list/>
-        </div>
-        <div x-show="activeTab === 'payment_rules'">
-            <x-payment-details-component />
-        </div>
-        <div x-show="activeTab === 'rent_point_conditions'">
-            <x-rent-point-conditions-component />
-        </div>
-        <div x-show="activeTab === 'about_us'">
-            <x-rent-point-info-component />
+        <div class="container mx-auto">
+            <div x-show="activeTab === 'motos'">
+                <livewire:moto-list/>
+            </div>
+            <div x-show="activeTab === 'payment_rules'">
+                <x-payment-details-component />
+            </div>
+            <div x-show="activeTab === 'rent_point_conditions'">
+                <x-rent-point-conditions-component />
+            </div>
+            <div x-show="activeTab === 'about_us'">
+                <x-rent-point-info-component />
+            </div>
         </div>
     </div>
 

@@ -16,7 +16,8 @@ class MotoList extends Component {
     public $types = ['All', 'Street', 'Cruiser', 'Sport', 'Touring', 'Enduro', 'Chopper', 'Adventure', 'Scooter', 'Electric'];
 
     public $motos;
-    public $selectedDate = [];
+    public $startDate;
+    public $endDate;
 
     protected $listeners = ['didSelectDate' => 'dateSelected'];
 
@@ -47,18 +48,15 @@ class MotoList extends Component {
         $user = Auth::user();
         $moto = Moto::find($motoId);
 
-        $startDate = Carbon::create(2024, 1, 1, 12, 0, 0, 'UTC');
-        $endDate = Carbon::create(2024, 1, 12, 12, 0, 0, 'UTC');
-
-        $interval = $startDate->diff($endDate);
+        $interval = $this->startDate->diff($this->endDate);
 
         $basketItem = CustomerBasket::create([
             'customer_id' => $user->id,
             'moto_id' => $moto->id,
             'quantity' => 1,
             'status' => 'pendingTransaction',
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
             'total_price' => $moto->base_rent_price * $interval->d,
             'total_price_currency' => $moto->base_rent_currency,
         ]);
@@ -81,30 +79,27 @@ class MotoList extends Component {
 
     #[On('didSelectDate')] 
     public function dateSelected($startDate, $endDate) {
-        $this->selectedDate = [$startDate];
-    
-        if ($endDate !== null) {
-            $this->selectedDate[] = $endDate;
-        }
+        $this->startDate = new \DateTime($startDate);
+        $this->endDate = new \DateTime($endDate);
     }
 
     public function isRentedOnSelectedDate($moto) {
-        if ($this->selectedDate && count($this->selectedDate) > 0) {
+        if ($this->startDate && $this->endDate) {
             $exists = Rent::where('moto_id', $moto->id)
                         ->where(function ($query) {
                             $query->where(function ($q) {
                                 $q->whereNotNull('actual_end_date')
-                                    ->where('start_date', '<=', $this->selectedDate[0])
-                                    ->where('actual_end_date', '>=' ,$this->selectedDate[0])
-                                    ->orWhere('start_date', '<=', end($this->selectedDate))
-                                    ->where('actual_end_date', '>=', end($this->selectedDate));
+                                    ->where('start_date', '<=', $this->startDate)
+                                    ->where('actual_end_date', '>=', $this->startDate)
+                                    ->orWhere('start_date', '<=', $this->endDate)
+                                    ->where('actual_end_date', '>=', $this->endDate);
                             })
                             ->orWhere(function ($q) {
                                 $q->whereNull('actual_end_date')
-                                    ->where('start_date', '<=', $this->selectedDate[0])
-                                    ->where('requested_end_date', '>=' ,$this->selectedDate[0])
-                                    ->orWhere('start_date', '<=', end($this->selectedDate))
-                                    ->where('requested_end_date', '>=', end($this->selectedDate));
+                                    ->where('start_date', '<=', $this->startDate)
+                                    ->where('requested_end_date', '>=', $this->startDate)
+                                    ->orWhere('start_date', '<=', $this->endDate)
+                                    ->where('requested_end_date', '>=', $this->endDate);
                             });
                         })
                         ->exists();
@@ -115,6 +110,6 @@ class MotoList extends Component {
     }
 
     public function isAbleToRent() {
-        return !(count($this->selectedDate) == 0 || in_array(null, $this->selectedDate));
+        return ($this->startDate && $this->endDate);
     }
 }

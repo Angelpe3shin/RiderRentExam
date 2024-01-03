@@ -1,7 +1,7 @@
 <div>
-    <div class="mb-3 mt-3 sm:px-6 lg:px-8">
-        <label for="datepicker" class="form-label font-semibold text-l text-gray-800 dark:text-gray-200 leading-tight">{{ __('Pick rent dates') }}:</label>
-        <input type="text" class="form-control rounded" id="datepicker" name="datepicker">
+    <div class="flex justify-center space-x-4 mb-4 mt-4 min-w-full items-center">
+        <label for="datepicker" class="font-semibold text-l text-gray-800 dark:text-gray-200 leading-tight w-auto">{{ __('Pick rent dates') }}:</label>
+        <input type="text" class="w-1/4 rounded ml-4 form-control rounded ml-4" id="datepicker" name="datepicker">
     </div>
 
     <div class="flex overflow-x-auto space-x-4 mb-4 mt-4 min-w-full min-h-full">
@@ -27,23 +27,22 @@
                 </div>
             </form>
         </div>
-        <!-- Ваша сетка справа -->
         <div class="mb-4 flex-grow">
             <div class="grid grid-cols-3 gap-4">
                 @foreach ($motos as $moto)
                     <div class="flex flex-col items-center bg-blue-100 dark:bg-gray-800 rounded-lg p-4">
                         <a href="{{ route('moto-details', ['id' => $moto->id]) }}">
-                            <img src="{{ $moto->motoModel->image_url }}" alt="Description" class="mb-2 rounded">
+                            <img src="{{ $moto->motoModel->image_url }}" alt="Description" class="mb-2 rounded" loading="lazy">
                             <div class="mb-2">{{ $moto->motoModel->name }}</div>
                             <div>{{ $moto->base_rent_price }}</div>
                             @auth
                                 @if ($this->isAbleToRent() && !$this->isRentedOnSelectedDate($moto))
                                     @if ($moto->isInBasketOf(Auth::user()))
-                                        <x-primary-button wire:click="removeFromBasket('{{ $moto->id }}')">
+                                        <x-primary-button wire:click.prevent="removeFromBasket('{{ $moto->id }}')">
                                             {{ __('Remove From Basket') }}
                                         </x-primary-button>
                                     @else
-                                        <x-primary-button wire:click="addToBasket('{{ $moto->id }}')">
+                                        <x-primary-button wire:click.prevent="addToBasket('{{ $moto->id }}')">
                                             {{ __('Add To Basket') }}
                                         </x-primary-button>
                                     @endif
@@ -55,6 +54,7 @@
                     </div>
                 @endforeach
             </div>
+
         </div>
     </div>
     <style>

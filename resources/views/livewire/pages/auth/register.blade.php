@@ -2,6 +2,7 @@
 
 use App\Models\Customer;
 use App\Models\Address;
+use App\Models\Country;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,11 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $city = '';
     public int $country_id = 0;
     public string $error = '';
+    public $countries;
 
+    public function mount() {
+        $this->countries = Country::orderBy('name')->pluck('name', 'id')->toArray();
+    }
     /**
      * Handle an incoming registration request.
      */
@@ -59,16 +64,13 @@ new #[Layout('layouts.guest')] class extends Component {
             event(new Registered($customer = Customer::create($validated)));
 
             try {
-                if (Auth::login($customer)) {
-                    $this->redirect(RouteServiceProvider::HOME, navigate: true);
-                } else {
-                    $this->error = 'Ошибка, пользователь не залогинен';
-                }
+                Auth::login($customer);
+                $this->redirect(RouteServiceProvider::HOME, navigate: true);
             } catch (\Exception $e) {
-                $this->error = $e->getMessage(); // Если произошло исключение, передаем сообщение об ошибке
+                $this->error = $e->getMessage(); 
             }
         } catch (\Exception $e) {
-            $this->error = $e->getMessage(); // Если произошло исключение, передаем сообщение об ошибке
+            $this->error = $e->getMessage();
         }
     }
 }; ?>
@@ -132,53 +134,71 @@ new #[Layout('layouts.guest')] class extends Component {
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="mt-4">
-            <x-input-label for="street" :value="__('Street')" />
+        <!-- Street and House number -->
+        <div class="container">
+            <div class="flex items-center justify-center mt-4">
+                <div class="form-group flex-1 mr-3">
+                    <div class="mt-4">
+                        <x-input-label for="street" :value="__('Street')" />
 
-            <x-text-input wire:model="street" id="street" class="block mt-1 w-full"
-                            type="street"
-                            name="street" required autocomplete="street" />
+                        <x-text-input wire:model="street" id="street" class="block mt-1 w-full"
+                                        type="street"
+                                        name="street" required autocomplete="street" />
 
-            <x-input-error :messages="$errors->get('street')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('street')" class="mt-2" />
+                    </div>
+                </div>
+                <div class="form-group w-1/4">
+                    <div class="mt-4">
+                        <x-input-label for="house_number" :value="__('House Number')" />
+
+                        <x-text-input wire:model="house_number" id="house_number" class="block mt-1 w-full"
+                                        type="house_number"
+                                        name="house_number" required autocomplete="house_number" />
+
+                        <x-input-error :messages="$errors->get('house_number')" class="mt-2" />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="mt-4">
-            <x-input-label for="house_number" :value="__('House #')" />
+        <!-- Zip Code and City -->
+        <div class="container">
+            <div class="flex items-center justify-center mt-4">
+                <div class="form-group w-1/4 mr-3">
+                    <div class="mt-4">
+                        <x-input-label for="zip_code" :value="__('Zip')" />
 
-            <x-text-input wire:model="house_number" id="house_number" class="block mt-1 w-full"
-                            type="house_number"
-                            name="house_number" required autocomplete="house_number" />
+                        <x-text-input wire:model="zip_code" id="zip_code" class="block mt-1 w-full"
+                                        type="zip_code"
+                                        name="zip_code" required autocomplete="zip_code" />
 
-            <x-input-error :messages="$errors->get('house_number')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('zip_code')" class="mt-2" />
+                    </div>
+                </div>
+                <div class="form-group flex-1">
+                    <div class="mt-4">
+                        <x-input-label for="city" :value="__('City')" />
+
+                        <x-text-input wire:model="city" id="city" class="block mt-1 w-full"
+                                        type="city"
+                                        name="city" required autocomplete="city" />
+
+                        <x-input-error :messages="$errors->get('city')" class="mt-2" />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="mt-4">
-            <x-input-label for="zip_code" :value="__('Zip')" />
-
-            <x-text-input wire:model="zip_code" id="zip_code" class="block mt-1 w-full"
-                            type="zip_code"
-                            name="zip_code" required autocomplete="zip_code" />
-
-            <x-input-error :messages="$errors->get('zip_code')" class="mt-2" />
-        </div>
-
-        <div class="mt-4">
-            <x-input-label for="city" :value="__('City')" />
-
-            <x-text-input wire:model="city" id="city" class="block mt-1 w-full"
-                            type="city"
-                            name="city" required autocomplete="city" />
-
-            <x-input-error :messages="$errors->get('city')" class="mt-2" />
-        </div>
-
+        <!-- Country -->
         <div class="mt-4">
             <x-input-label for="country_id" :value="__('Country')" />
-
-            <x-text-input wire:model="country_id" id="country_id" class="block mt-1 w-full"
-                            type="country_id"
-                            name="country_id" required autocomplete="country_id" />
-
+            <select wire:model="country_id" id="country_id" class="block mt-1 w-full" name="country_id" required>
+                <option value="" selected>Select Country</option>
+                @foreach($countries as $id => $name)
+                    <option value="{{ $id }}">{{ $name }}</option>
+                @endforeach
+            </select>
             <x-input-error :messages="$errors->get('country_id')" class="mt-2" />
         </div>
 

@@ -44,7 +44,10 @@
                         dateFormat: "Y-m-d",
                         onClose: function(selectedDates, dateStr, instance) {
                             if (selectedDates.length > 1) {
-                                Livewire.dispatch('didSelectDate', [selectedDates[0], selectedDates[1]]);
+                                Livewire.dispatch('didSelectDate', {
+                                    startDate: selectedDates[0],
+                                    endDate: selectedDates[1]
+                                });
                             }
                         },
                     });

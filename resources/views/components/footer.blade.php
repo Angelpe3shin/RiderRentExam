@@ -14,14 +14,11 @@
                     </a>
             </p>
             <div class="flex space-x-4">
-                <!-- Instagram -->
                 <a href="https://www.instagram.com/" target="_blank">
                     <img src="{{ asset('images/logo/ig.png') }}" alt="Instagram Logo" class="w-10 h-10">
                 </a>
 
-                <!-- YouTube -->
                 <a href="https://www.youtube.com/" target="_blank">
-                    <!-- You can replace 'images/logo/youtube.png' with the path to your YouTube logo -->
                     <img src="{{ asset('images/logo/youtube.png') }}" alt="YouTube Logo" class="w-10 h-10">
                 </a>
             </div>
