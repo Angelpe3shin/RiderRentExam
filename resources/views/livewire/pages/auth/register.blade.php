@@ -29,6 +29,7 @@ new #[Layout('layouts.guest')] class extends Component {
     public function mount() {
         $this->countries = Country::orderBy('name')->pluck('name', 'id')->toArray();
     }
+
     /**
      * Handle an incoming registration request.
      */

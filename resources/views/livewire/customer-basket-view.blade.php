@@ -36,7 +36,17 @@
                     </div>
                 </div>
             @endif
-            <div>Total price: {{ $totalBasketPrice }} </div>
+            <div class="flex justify-between items-center p-4">
+                <div>
+                    Total price: {{ $totalBasketPrice }}
+                </div>
+
+                @if ($transactionType == 'pendingTransaction' && $this->getPendingTransactionsCount() > 0)
+                    <x-primary-button wire:click.prevent="completeBooking">
+                        {{ __('Complete Booking') }}
+                    </x-primary-button>
+                @endif
+            </div>
         </form>
     </div>
     <style>

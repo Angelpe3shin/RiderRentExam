@@ -22,6 +22,7 @@ class Rent extends Model {
         'actual_end_date',
         'total_requested_price',
         'total_actual_price',
+        'price_currency',
         'is_active',
     ];
 

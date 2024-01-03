@@ -34,6 +34,8 @@ class Moto extends Model {
     }
 
     public function isInBasketOf($user) {
-        return $user->basketItems->contains('moto_id', $this->id);
+        return $user->basketItems->contains(function ($item) {
+            return $item->moto_id === $this->id && $item->status === 'pendingTransaction';
+        });
     }
 }
