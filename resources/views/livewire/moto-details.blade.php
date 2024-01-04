@@ -9,7 +9,7 @@
 
     <div class="container mx-auto mt-8">
         <div class="flex flex-col items-start">
-            <img src="{{ asset($moto->motoModel->image_url) }}" alt="{{ $moto->motoModel->name }}" class="mb-4 rounded">
+            <img src="{{ asset($moto->motoModel->image_url) }}" alt="{{ $moto->motoModel->name }}" class="mb-4 rounded w-full object-cover">
             <div class="flex flex-col items-start text-left">
                 <h2 class="text-2xl font-semibold">{{ $moto->motoModel->brand->name }} {{ $moto->motoModel->name }}</h2>
                 <p class="text-gray-600">{{ __('Rent Price')}}: {{ $moto->base_rent_price }} {{ $moto->base_rent_currency }}</p>
