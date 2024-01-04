@@ -4,8 +4,8 @@
         <input type="text" class="w-1/4 rounded ml-4 form-control rounded ml-4" id="datepicker" name="datepicker">
     </div>
 
-    <div class="flex overflow-x-auto space-x-4 mb-4 mt-4 min-w-full min-h-full">
-        <div class="flex-col overflow-x-auto space-x-4 mb-4 w-1/4 min-h-full my-4">
+    <div class="flex space-x-4 mb-4 mt-4 min-w-full min-h-full">
+        <div class="flex-col space-x-4 mb-4 w-1/4 min-h-full my-4">
             <form wire:submit.prevent="applyFilter" class="mx-4"> 
                 <div class="flex flex-col items-start justify-start mb-4">
                     @foreach($types as $type)
@@ -27,36 +27,34 @@
                 </div>
             </form>
         </div>
-        <div class="mb-4 flex-grow">
-            <div class="grid grid-cols-3 gap-4">
-                @foreach ($motos as $moto)
-                    <div class="flex flex-col items-center bg-blue-100 dark:bg-gray-800 rounded-lg p-4">
-                        <a href="{{ route('moto-details', ['id' => $moto->id]) }}">
-                            <img src="{{ $moto->motoModel->image_url }}" alt="Description" class="mb-2 rounded" loading="lazy">
-                            <div class="mb-2">{{ $moto->motoModel->name }}</div>
-                            <div>{{ $moto->base_rent_price }}</div>
-                            @auth
-                                @if ($this->isAbleToRent() && !$this->isRentedOnSelectedDate($moto))
-                                    @if ($moto->isInBasketOf(Auth::user()))
-                                        <x-primary-button wire:click.prevent="removeFromBasket('{{ $moto->id }}')">
-                                            {{ __('Remove From Basket') }}
-                                        </x-primary-button>
-                                    @else
-                                        <x-primary-button wire:click.prevent="addToBasket('{{ $moto->id }}')">
-                                            {{ __('Add To Basket') }}
-                                        </x-primary-button>
-                                    @endif
-                                @elseif ($this->isAbleToRent())
-                                    Unavailable on selected dates
+        <div class="grid grid-cols-3 gap-4">
+            @foreach ($motos as $moto)
+                <div class="flex flex-col items-center bg-blue-100 dark:bg-gray-800 rounded-lg p-4">
+                    <a href="{{ route('moto-details', ['id' => $moto->id]) }}">
+                        <img src="{{ asset($moto->motoModel->image_url) }}" alt="Description" class="mb-2 rounded" loading="lazy">
+                        <div>{{ $moto->motoModel->name }}</div>
+                        <div>{{ $moto->base_rent_price }}</div>
+                        @auth
+                            @if ($this->isAbleToRent() && !$this->isRentedOnSelectedDate($moto))
+                                @if ($moto->isInBasketOf(Auth::user()))
+                                    <x-primary-button wire:click.prevent="removeFromBasket('{{ $moto->id }}')">
+                                        {{ __('Remove From Basket') }}
+                                    </x-primary-button>
+                                @else
+                                    <x-primary-button wire:click.prevent="addToBasket('{{ $moto->id }}')">
+                                        {{ __('Add To Basket') }}
+                                    </x-primary-button>
                                 @endif
-                            @endauth
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-
+                            @elseif ($this->isAbleToRent())
+                                Unavailable on selected dates
+                            @endif
+                        @endauth
+                    </a>
+                </div>
+            @endforeach
         </div>
     </div>
+
     <style>
         .radio-label {
             display: inline-block;
@@ -73,6 +71,39 @@
 
         .flex {
             flex: 1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .grid div {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .grid a {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            text-decoration: none;
+        }
+
+        .grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px 8px 8px 8px;
+        }
+
+        .grid div > a > div {
+            flex-grow: 1;
         }
     </style>
 </div>
