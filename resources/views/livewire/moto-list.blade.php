@@ -1,8 +1,10 @@
 <div>
-    <div class="flex justify-center space-x-4 mb-4 mt-4 min-w-full items-center">
-        <label for="datepicker" class="font-semibold text-l text-gray-800 dark:text-gray-200 leading-tight w-auto">{{ __('Pick rent dates') }}:</label>
-        <input type="text" class="w-1/4 rounded ml-4 form-control rounded ml-4" id="datepicker" name="datepicker">
-    </div>
+    @auth
+        <div class="flex justify-center space-x-4 mb-4 mt-4 min-w-full items-center">
+            <label for="datepicker" class="font-semibold text-l text-gray-800 dark:text-gray-200 leading-tight w-auto">{{ __('Pick rent dates') }}:</label>
+            <input type="text" class="w-1/4 rounded ml-4 form-control rounded ml-4" id="datepicker" name="datepicker">
+        </div>
+    @endauth
 
     <div class="flex space-x-4 mb-4 mt-4 min-w-full min-h-full">
         <div class="flex-col space-x-4 mb-4 w-1/4 min-h-full my-4">
